@@ -1,29 +1,37 @@
 package ru.mephi.malskiy.util;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import ru.mephi.malskiy.enums.Coordinates;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+@Component
 public class ApiConstants {
-    public static final String YANDEX_API_WEATHER_KEY;
-    public static final String BASE_URL = "https://api.weather.yandex.ru/v2/forecast";
+    public final String apiKey;
+    public final String baseUrl;
 
-    static {
-        Properties props = new Properties();
-        String key = null;
+    public ApiConstants(@Value("${yandex.weather.api.key}") String apiKey,
+                        @Value("${yandex.weather.base.url}") String baseUrl) {
+        this.apiKey = apiKey;
+        this.baseUrl = baseUrl;
+    }
 
-        try (InputStream input = ApiConstants.class.getClassLoader().getResourceAsStream("application.properties")){
-            props.load(input);
-            key = props.getProperty("yandex.weather.api.key");
+    public String getApiKey() {
+        return apiKey;
+    }
 
-            if (key == null) {
-                throw new IllegalStateException("yandex.weather.api.key отсутствует");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException("application.properties не найден", e);
-        }
+    public String getBaseUrl() {
+        return baseUrl;
+    }
 
-        YANDEX_API_WEATHER_KEY = key;
+    public String buildUrl(Coordinates coordinates, int days) {
+        return baseUrl + "?" +
+            coordinates.getLocation() +
+            "&limit=" + days;
     }
 }
