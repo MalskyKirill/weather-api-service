@@ -39,6 +39,5 @@ public class WeatherController {
         }
 
         return weatherService.getWeather(coordinates, days);
-
     }
 }
