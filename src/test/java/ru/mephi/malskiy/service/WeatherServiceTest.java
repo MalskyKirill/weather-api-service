@@ -29,7 +29,7 @@ class WeatherServiceTest {
 
         String body = """
             {
-              \"fact\": {\"temp\": 6},
+              \"fact\": {\"temp\": 5},
               \"forecasts\": [
                 { \"parts\": { \"day\": { \"temp_avg\": 4 } } },
                 { \"parts\": { \"day\": { \"temp_avg\": 6 } } }
