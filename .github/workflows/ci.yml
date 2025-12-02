@@ -47,5 +47,5 @@ jobs:
         steps:
             - name: Push to Amvera
               run: |
-                  git remote add amvera "$AMVERA_REPO_URL"
+                  git remote add amvera https://git.msk0.amvera.ru/kirillmalskiy/weather
                   git push amvera HEAD:master
