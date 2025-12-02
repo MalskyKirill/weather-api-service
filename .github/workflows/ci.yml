@@ -40,6 +40,7 @@ jobs:
 
     deploy-to-amvera:
         needs: build-and-test
+
         runs-on: ubuntu-latest
         name: Deploy to Amvera
 
@@ -47,10 +48,20 @@ jobs:
             -   name: Checkout repository
                 uses: actions/checkout@v4
 
-            -   name: Push to Amvera
+            -   name: Configure git credentials for Amvera
                 env:
-                    AMVERA_REPO_URL: ${{ secrets.AMVERA_REPO_URL }}
+                    AMVERA_USER: ${{ secrets.AMVERA_USER }}
+                    AMVERA_PASSWORD: ${{ secrets.AMVERA_PASSWORD }}
                 run: |
-                    git remote add amvera "$AMVERA_REPO_URL"
-                    git push amvera HEAD:master
+                    cat <<EOF >> ~/.netrc
+                    machine git.msk0.amvera.ru
+                      login $AMVERA_USER
+                      password $AMVERA_PASSWORD
+                    EOF
+                    chmod 600 ~/.netrc
 
+            -   name: Push to Amvera
+                run: |
+                    git remote add amvera https://git.msk0.amvera.ru/kirillmalskiy/weather
+                    git remote -v
+                    git push amvera HEAD:master
