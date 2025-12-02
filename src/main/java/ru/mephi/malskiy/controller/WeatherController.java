@@ -29,7 +29,7 @@ public class WeatherController {
 
         Coordinates coordinates = Optional.ofNullable(Coordinates.findByCode(cityCode)).orElseThrow(() -> new ResponseStatusException(
             HttpStatus.BAD_REQUEST,
-            "неизвестный код города  " + cityCode
+            "неизвестный код города   " + cityCode
         ));
 
         if (days < 1 || days > 11) {
