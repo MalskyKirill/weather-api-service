@@ -38,17 +38,5 @@ jobs:
             - name: Build and test with Maven
               run: mvn -B clean verify
 
-    deploy-to-amvera:
-        needs: build-and-test
-
-        if: (github.event_name == 'push' || github.event_name == 'pull request') &&
-            github.ref == 'refs/heads/main'
-
-        runs-on: ubuntu-latest
-        name: Deploy to Amvera
-
-        steps:
-            -   name: Push to Amvera
-                run: git push amvera master
 
 
