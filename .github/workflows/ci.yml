@@ -1,0 +1,54 @@
+name: Java CI (multi-OS)
+
+on:
+    push:
+        branches: [ "main" ]
+    pull_request:
+        branches: [ "main" ]
+
+jobs:
+    build-and-test:
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: ubuntu-latest
+                      name: Linux
+                    - os: windows-latest
+                      name: Windows
+                    - os: macos-13
+                      name: macOS Intel
+                    - os: macos-14
+                      name: macOS Apple Silicon
+
+        runs-on: ${{ matrix.os }}
+        name: Build & Test (${{ matrix.name }})
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
+            - name: Set up JDK 21
+              uses: actions/setup-java@v4
+              with:
+                  distribution: 'temurin'
+                  java-version: '21'
+                  cache: 'maven'
+
+            - name: Build and test with Maven
+              run: mvn -B clean verify
+
+    deploy-to-amvera:
+        needs: build-and-test
+
+        if: (github.event_name == 'push' || github.event_name == 'pull request') &&
+            github.ref == 'refs/heads/main'
+
+        runs-on: ubuntu-latest
+        name: Deploy to Amvera
+
+        steps:
+            -   name: Push to Amvera
+                run: git push amvera master
+
+
