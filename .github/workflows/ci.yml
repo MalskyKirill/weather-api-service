@@ -64,4 +64,4 @@ jobs:
                 run: |
                     git remote add amvera https://git.msk0.amvera.ru/kirillmalskiy/weather
                     git remote -v
-                    git push amvera HEAD:master
+                    git push --force amvera HEAD:master
