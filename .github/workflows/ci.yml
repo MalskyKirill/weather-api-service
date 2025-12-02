@@ -38,5 +38,14 @@ jobs:
             - name: Build and test with Maven
               run: mvn -B clean verify
 
+    deploy-to-amvera:
+        needs: build-and-test
 
+        runs-on: ubuntu-latest
+        name: Deploy to Amvera
 
+        steps:
+            - name: Push to Amvera
+              run: |
+                  git remote add amvera "$AMVERA_REPO_URL"
+                  git push amvera HEAD:master
