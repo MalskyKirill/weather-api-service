@@ -45,6 +45,9 @@ jobs:
         name: Deploy to Amvera
 
         steps:
+            - name: Checkout repository
+              uses: actions/checkout@v4
+
             - name: Push to Amvera
               run: |
                   git remote add amvera https://git.msk0.amvera.ru/kirillmalskiy/weather
