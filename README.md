@@ -105,7 +105,19 @@ docker run --rm -p 9090:9090 weather-service
 docker run --rm -p 8080:9090 weather-service
 ```
 
----
+## CI/CD
+
+В репозитории настроен GitHub Actions workflow `.github/workflows/ci-cd.yml`, который запускается для ветки `main` при push и pull request. Pipeline выполняется параллельно на Linux, Windows, macOS Intel и macOS Apple Silicon.
+
+Основные шаги:
+
+1. Checkout репозитория.
+2. Установка JDK 21 (Temurin) с кешированием зависимостей Maven.
+3. Сборка и тестирование командой:
+
+   ```bash
+   mvn -B clean verify
+   ```
 
 ## API
 
